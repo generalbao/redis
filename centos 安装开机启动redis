@@ -1,0 +1,62 @@
+centos 安装开机启动redis     2017年1月9日15:24:01
+
+  wget http://download.redis.io/releases/redis-3.2.6.tar.gz
+  tar -xvf redis-xxx
+  cd redis 
+  make
+  搞定！！！！！
+  
+  cd src
+  redis-server 服务器
+  redis-cli 客户端
+  
+  开机启动而且可以通过 service redis start/stop/reload 来管理redis服务器
+  
+  PATH=/usr/local/bin:/sbin:/usr/bin:/bin  
+     
+REDISPORT=6379  
+EXEC=/usr/local/bin/redis-server   //redis-server路径  
+REDIS_CLI=/usr/local/bin/redis-cli  
+     
+PIDFILE=/var/run/redis.pid  
+CONF="/etc/redis.conf"    配置文件
+     
+case "$1" in  
+    start)  
+        if [ -f $PIDFILE ]  
+        then  
+                echo "$PIDFILE exists, process is already running or crashed"  
+        else  
+                echo "Starting Redis server..."  
+                $EXEC $CONF  
+        fi  
+        if [ "$?"="0" ]   
+        then  
+              echo "Redis is running..."  
+        fi  
+        ;;  
+    stop)  
+        if [ ! -f $PIDFILE ]  
+        then  
+                echo "$PIDFILE does not exist, process is not running"  
+        else  
+                PID=$(cat $PIDFILE)  
+                echo "Stopping ..."  
+                $REDIS_CLI -p $REDISPORT SHUTDOWN  
+                while [ -x ${PIDFILE} ]  
+               do  
+                    echo "Waiting for Redis to shutdown ..."  
+                    sleep 1  
+                done  
+                echo "Redis stopped"  
+        fi  
+        ;;  
+   restart|force-reload)  
+        ${0} stop  
+        ${0} start  
+        ;;  
+  *)  
+    echo "Usage: /etc/init.d/redis {start|stop|restart|force-reload}" >&2  
+        exit 1  
+esac  
+上面保存为redis 然后放在 /etc/init.d下面 chmod +x 给权限  搞定
