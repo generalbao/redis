@@ -1,0 +1,10 @@
+2017年1月10日11:51:59
+
+$redis = new Redis();
+
+$redis->connect(ip,port);
+
+$redis->auth();           //连接密码
+
+$redis->set(key,value);
+$redis->expire(key,time);         //设置过期时间！！！！
