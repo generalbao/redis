@@ -1,0 +1,14 @@
+2017年1月10日11:19:31
+
+ 1 可能redis 服务器没开  
+ 
+ 2 防火墙 
+ SELinux启用也可能导致这个问题，关掉：
+setenforce 0
+或者禁掉：
+setenforce disable
+
+3 redis 配置文件
+bind ip 
+ protect no
+ 
