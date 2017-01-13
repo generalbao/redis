@@ -1,0 +1,9 @@
+2017年1月13日18:16:25
+
+persist	persist key-name 移除键的过期时间
+ttl	ttl key-name 查看键的过期时间还有多少秒
+expire	expire key-name seconds 设置过期时间
+expireat	expireat key-name timestamp 设置过期时间，UNIX时间戳
+pttl	pttl key-name 查看过期时间，单位毫秒
+pexpire	pexpire key-name milliseconds 设置过期时间，单位毫秒
+pexpireat	pexpireat key-name timestamp-uninx 设置过期时间，单位毫秒，UNINX时间戳
