@@ -5,6 +5,59 @@ $redis = new Redis();
 $redis->connect(ip,port);
 
 $redis->auth();           //连接密码
-
-$redis->set(key,value);
 $redis->expire(key,time);         //设置过期时间！！！！
+redis->ttl 查询key的生存时间
+
+
+--- string
+$redis->set(key,value);
+$redis->get(key)
+
+        mset key1 val1 key2 val2
+
+        getrange key1 0 5  类似于php 的 substr($key,0,5)
+
+         //必须是int类型
+        incr key1        
+        incrby key1 5
+
+        append key1 somethingappend
+
+        strlen key1
+
+
+
+
+-----hash 
+redis->hset user1 name bao
+       hmset user2 name bao age 22
+
+       hget user1 name
+
+       hgetall user1
+
+       hkeys user1         得到user中的所有key
+       vals user1           
+
+       hlen user1         得到user中多少个key
+
+
+-----list   每个子元素都是 string 类型的双向链表 l--left r---right
+
+       lpush mylist list1
+       lpush mylist list2
+       lpush mylist list2
+            
+       rpush mylist list3
+       lrange mylist 0 -1  得到所有  链表
+
+        1) "list2"
+ 		2) "list2"
+		3) "list1"
+		4) "list3"
+
+
+
+
+
+
