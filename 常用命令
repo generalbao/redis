@@ -55,9 +55,61 @@ redis->hset user1 name bao
  		2) "list2"
 		3) "list1"
 		4) "list3"
+		
+----- set
+Sadd 命令将一个或多个成员元素加入到集合中，已经存在于集合的成员元素将被忽略。
+假如集合 key 不存在，则创建一个只包含添加的元素作成员的集合。
+当集合 key 不是集合类型时，返回一个错误。
+   
+   添加
+sadd myset first
+sadd myset second 
+sadd myset second  会报错
 
+集合的数量
+scard myset  
 
+sadd myset2 first
+add myset2 three
+  
+   交集并集
+sdiff myset myset2  返回second three
+sinter myset myset2       first 
 
+ 查看所有的子类
+smembers myset
 
+ 是不是子类
+sismember myset first     return 1
 
+ 把一个集合中的某个元素移动到其他集合中
+smove myset myset1 second
 
+移除并返回集合中的一个随机元素。
+ spop myset
+ 
+ remove one of from set
+ srem myset first
+ 
+ uinion myset myset1
+ 
+ 
+ ---sorted set  
+ 
+ zadd  zadd zset 1 a    > ZADD KEY_NAME SCORE1 VALUE1
+       zadd zset 2 b
+       zadd zset 5 e
+ zcard   zcard zset
+ zcount  zcount zset 1 10  计算有序集合中指定分数区间的成员数量。
+ zrange minScore maxScore withscores       得到所有元素 按照分数排序
+ 
+ Zrank 返回有序集中指定成员的排名。其中有序集成员按分数值递增(从小到大)顺序排列。
+ zrank zset a         return 0   排名第一
+ zrank zset e         return 2       第三
+ 
+ zscore 返回有序集中，成员的分数值。 如果成员元素不是有序集 key 的成员，或 key 不存在，返回 nil 。
+        zscore  zset a         return 1
+	zscore zset e            return 5
+ zrem   
+        zrem zset e           remove e from zset
+	
