@@ -113,3 +113,12 @@ smove myset myset1 second
  zrem   
         zrem zset e           remove e from zset
 	
+2017年1月16日17:49:14
+        
+	keys *
+	del key1
+	exists key1   
+	expire
+	ttl
+	persist
+	move 
