@@ -122,3 +122,30 @@ smove myset myset1 second
 	ttl
 	persist
 	move 
+ 
+ 
+ 2017年1月20日18:49:06
+ 
+ set key1 val1
+ rename key1 keynew1 重命名
+ type key1 
+ 
+ 
+ 3.2  服务器相关命令
+ ping 测试连接是否存活
+ select   select 1 选择第二个数据库  0-15
+ dbsize   数据库有多少key
+ quit
+ info    查看服务器的消息
+ config get */dir
+ 
+ flushdb 
+ flushall 删除所有数据库中的所有 key
+ 
+ 
+ Redis  设置密码
+ vim redis.conf
+ 里面的requirepass xx
+ 然后客户端连接的时候  ./redis-cli -a xxx    或者连接后 ./redis-cli,在 auth xxx
+ 
+ 
