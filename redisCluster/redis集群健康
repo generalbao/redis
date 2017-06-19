@@ -1,0 +1,9 @@
+not all xxx slots covered by nodes
+
+这个往往是由于主node移除了，但是并没有移除node上面的slot，从而导致了slot总数没有达到16384，其实也就是slots分布不正确。所以在删除节点的时候一定要注意删除的是否是Master主节点。
+1)、官方是推荐使用redis-trib.rb fix 来修复集
+[root@node01 src]#  ./redis-trib.rb fix 192.168.28.135:6379
+
+
+
+

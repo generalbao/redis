@@ -1,0 +1,30 @@
+一 在 我的虚拟机192.168.28.136 192.168.28.135 192.168.28.134 安装redis 
+配置redis.conf
+ bind 各自的ip  不能 127.0.0.1
+ cluster-enabled yes
+ cluster-config-file nodes-130.conf
+ cluster-node-timeout 15000
+ cluster-require-full-coverage no
+
+并且启动
+
+二、创建集群
+怎么样把redis各个节点组合起来来搭建集群。官方提供的工具：redis-trib.rb(/usr/local/redis-3.2.1/src/redis-trib.rb) 是用ruby写的一个程序，
+因此还需要安装ruby.
+1.配置安装工具
+yum -y install ruby ruby-devel rubygems rpm-build
+./redis-trib.rb create 192.168.28.136:6379 192.168.28.135:6379 192.168.28.134:6379
+
+三 启动 ./src/redis-cli -h 192.168.28.135 -c         
+
+set test val
+-> Redirected to slot [6918] located at 192.168.28.135:6379
+OK
+
+
+问题1 rubygems/rubygems/core_ext/kernel_require.rb:55:in `require': cannot load such file -- redis
+解决办法  gem install redis
+
+问题2 Creating Server TCP listening socket （我的ip:port）: bind: Cannot assign requested address
+redis.conf配置文件绑定ip错误
+
