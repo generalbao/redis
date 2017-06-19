@@ -1,0 +1,23 @@
+redis-trib.rb 是官方出品的，是ruby开发的，其实他的原理也是调用reids的cluster指令
+
+安装可以参照 https://github.com/generalbao/redis/blob/master/redis%E9%9B%86%E7%BE%A4
+
+1 创建集群 ./redis-trib.rb create 192.168.28.136:6379 192.168.28.135:6379 192.168.28.134:6379
+
+./redis-trib.rb create --replicas 1 192.168.28.136:6379 192.168.28.135:6379 192.168.28.134:6379 (这个是建立 1 slave的)
+
+2  检查节点健康./redis-trib.rb check 192.168.28.135:6379
+
+3 增加节点，redis-trib.rb add-node 你想要的增加的ip:port
+
+4 重新分配slot ./redis-trib.rb reshard <host>:<port>
+  然后会提示让你输入要多少个slot(1) 和移动到哪一个节点上(2)
+f33638c842ed71193f14c5871c46be9f8107535c
+source node(3)  输入all 表示从所有的主节点中随机转移，凑够n个哈希槽
+
+5删除节点 ./redis-trib.rb del-node 127.0.0.1:7007 'f33638c842ed71193f14c5871c46be9f8107535c'
+
+
+
+
+
