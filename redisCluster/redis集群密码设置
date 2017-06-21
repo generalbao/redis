@@ -1,0 +1,31 @@
+1.密码设置 
+方式一：修改所有Redis集群中的redis.conf文件加入： 
+masterauth passwd123 
+requirepass passwd123 
+说明：这种方式需要重新启动各节点
+
+方式二：进入各个实例进行设置： 
+./redis-cli -c -h 192.168.28.135
+
+config set masterauth passwd123 
+config set requirepass passwd123 
+config rewrite 
+之后分别使用
+
+./redis-cli -c -h 192.168.28.136，
+
+./redis-cli -c -h 192.168.28.134 …..命令给各节点设置上密码 
+注意：各个节点密码都必须一致，否则Redirected就会失败， 推荐这种方式，这种方式会把密码写入到redis.conf里面去，且不用重启
+
+2.设置密码之后如果需要使用redis-trib.rb的各种命令 
+如：redis-trib.rb check 127.0.0.1，则会报错ERR] Sorry, can’t connect to node 127.0.0.1:7000 
+解决办法： 
+vim /usr/lib/ruby/gems/1.8/gems/redis-3.3.0/lib/redis/client.rb,然后修改passord
+
+3.JPG
+
+
+
+2.带密码访问集群
+
+./redis-cli -c -h 192.168.28.136 -a passwd123
