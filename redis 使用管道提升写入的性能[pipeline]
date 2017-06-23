@@ -1,0 +1,64 @@
+
+ Pipeline在某些场景下非常有用，比如有多个command需要被“及时的”提交，而且他们对相应结果没有互相依赖，而且对结果响应也无需立即获得，
+ 那么pipeline就可以充当这种“批处理”的工具；而且在一定程度上，可以较大的提升性能,性能提升的原因主要是TCP链接中较少了“交互往返”的时间。
+ 
+
+<?php
+
+set_time_limit(0);
+
+//计时函数
+function G($start,$end='',$dec=4)
+{
+    static $_info = array();
+    if (!empty($end))
+    {
+        if(!isset($_info[$end])) $_info[$end] = microtime(TRUE);
+        $sconds = number_format(($_info[$end]-$_info[$start]), $dec) * 1000;
+        echo "{$sconds}ms<br />";
+    }
+    else
+    {
+        $_info[$start] = microtime(TRUE);
+    }
+}
+
+$redis = new Redis();
+$redis->connect('127.0.0.1');
+
+G('t');
+$redis->pipeline();
+for ($i=0; $i < 100000 ; $i++) { 
+   $redis->set("test_{$i}", pow($i, 2));
+   $redis->get('test_{$i}');
+}
+$redis->exec();
+G('t','r');
+
+G('m');
+$redis->multi();
+for ($i=0; $i < 100000 ; $i++) { 
+   $redis->set("test_{$i}", pow($i, 2));
+   $redis->get('test_{$i}');
+}
+$redis->exec();
+G('m','i');
+
+$redis->flushdb();
+
+G('f');
+for ($i=0; $i < 100000 ; $i++) { 
+   $redis->set("test_{$i}", pow($i, 2));
+   $redis->get('test_{$i}');
+}
+G('f','e');
+
+?>
+这是返回的结果：
+
+//pipeline的执行时间
+652ms
+//multi的执行时间
+//正常情况下
+9148.5ms
+9139.5ms
